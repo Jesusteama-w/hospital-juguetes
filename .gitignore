@@ -1,0 +1,9 @@
+# Carpetas de trabajo (no se publican)
+_notas/
+_modelado/
+.claude/
+
+# Archivos del sistema
+Thumbs.db
+desktop.ini
+.DS_Store

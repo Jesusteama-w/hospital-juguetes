@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR del cuento</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    :root { --tinta: #2b2140; --calido: #ff7a3d; --papel: #fff7e8; --noche: #141b33; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: var(--noche); color: #fff; font-family: 'Nunito', sans-serif; display: grid; place-items: center; padding: 24px 16px; }
+    .panel { width: min(560px, 100%); display: grid; gap: 18px; }
+    h1 { margin: 0; font-family: 'Fredoka', sans-serif; font-size: 26px; }
+    label { font-weight: 700; font-size: 14px; opacity: .8; }
+    .fila { display: flex; gap: 8px; }
+    input { flex: 1; min-width: 0; height: 48px; border-radius: 12px; border: 2px solid rgba(255,255,255,.2); background: rgba(255,255,255,.08); color: #fff; padding: 0 14px; font: 600 15px 'Nunito', sans-serif; }
+    button { height: 48px; padding: 0 18px; border: 0; border-radius: 12px; background: var(--calido); color: #fff; font: 700 16px 'Fredoka', sans-serif; cursor: pointer; }
+    button.sec { background: rgba(255,255,255,.12); }
+    .tarjeta { background: var(--papel); color: var(--tinta); border-radius: 22px; padding: 28px 24px; text-align: center; display: grid; justify-items: center; gap: 12px; border: 3px dashed rgba(43,33,64,.25); }
+    .tarjeta .emoji { font-size: 40px; line-height: 1; }
+    .tarjeta h2 { margin: 0; font-family: 'Fredoka', sans-serif; font-size: 26px; line-height: 1.05; }
+    .tarjeta h2 b { color: #d9501a; }
+    .tarjeta p { margin: 0; font-weight: 700; font-size: 15px; line-height: 1.35; }
+    #qr { background: #fff; padding: 14px; border-radius: 16px; }
+    #qr img, #qr canvas { display: block; width: 240px; height: 240px; }
+    .url { font-size: 12px; opacity: .6; word-break: break-all; }
+    .ayuda { font-size: 14px; line-height: 1.5; opacity: .8; }
+    .acciones { display: flex; gap: 8px; flex-wrap: wrap; }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .no-imprimir { display: none !important; }
+      .tarjeta { border-color: #bbb; }
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <div class="no-imprimir">
+      <h1>QR para el cuento</h1>
+      <p class="ayuda">Pegá la dirección donde publicaste el cuento (por ejemplo la de Netlify o GitHub Pages). El QR se genera solo; después podés imprimir la tarjeta o descargar la imagen.</p>
+      <label for="url">Dirección del cuento</label>
+      <div class="fila"><input id="url" type="url" inputmode="url" placeholder="https://mi-cuento.netlify.app"></div>
+    </div>
+
+    <div class="tarjeta" id="tarjeta">
+      <div class="emoji">🧸</div>
+      <h2>El hospital de los <b>juguetes olvidados</b></h2>
+      <p>Escaneá el código con la cámara del celular y abrí el cuento.</p>
+      <div id="qr"></div>
+      <p>Después… ¡a jugar sin pantallas!</p>
+      <div class="url" id="urlTxt"></div>
+    </div>
+
+    <div class="acciones no-imprimir">
+      <button onclick="window.print()">Imprimir tarjeta</button>
+      <button class="sec" id="bajar">Descargar QR (PNG)</button>
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById('url'), cont = document.getElementById('qr'), urlTxt = document.getElementById('urlTxt');
+    // Si esta página ya está publicada, propone la dirección del cuento (misma carpeta).
+    const aqui = location.href.replace(/qr\.html.*$/, '');
+    if (/^https?:/.test(aqui) && !/localhost|127\.0\.0\.1/.test(aqui)) input.value = aqui;
+    let qr;
+    function dibujar() {
+      const v = input.value.trim();
+      cont.innerHTML = ''; urlTxt.textContent = v;
+      if (!v || typeof QRCode === 'undefined') return;
+      qr = new QRCode(cont, { text: v, width: 480, height: 480, colorDark: '#2b2140', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+    }
+    input.addEventListener('input', dibujar);
+    dibujar();
+    document.getElementById('bajar').addEventListener('click', () => {
+      const c = cont.querySelector('canvas'); if (!c) return;
+      const a = document.createElement('a'); a.download = 'qr-cuento.png'; a.href = c.toDataURL('image/png'); a.click();
+    });
+  </script>
+</body>
+</html>
