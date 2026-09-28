@@ -7,3 +7,6 @@ _modelado/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Afiche para imprimir (se genera con _notas/afiche_qr.py)
+Afiche QR/
