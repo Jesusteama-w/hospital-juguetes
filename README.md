@@ -34,7 +34,7 @@ Para probarlo en tu compu: `python -m http.server 5173` en esta carpeta y abrí 
 ## Pensado para 6 a 12 años
 
 - **Letra grande y redonda** (17–32 px según la pantalla) y frases cortas en cada página.
-- **Botón "Leer"**: la voz del celular lee cada página y va marcando la palabra, así los más chicos, que todavía no leen solos, pueden seguirlo.
+- **Botón "Leer"**: una narración grabada (`assets/voz/`) lee cada página y va marcando la palabra, así los más chicos, que todavía no leen solos, pueden seguirlo. Si falta el audio de una página, usa la voz del celular.
 - **Botones grandes** (54–58 px), se puede pasar de página deslizando el dedo, y cada página indica qué tocar ("Tocá el osito").
 - **Siempre hay algo en movimiento**: parpadeos, rebotes, chispitas y un trencito que muestra cuánto falta.
 - **Sin publicidad, sin enlaces a otros sitios, sin cuentas y sin datos personales.** Lo único que se guarda, en el propio celular, es si el sonido está prendido y si el chico hizo la promesa.
